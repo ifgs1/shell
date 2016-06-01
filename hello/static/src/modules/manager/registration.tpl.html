@@ -1,0 +1,41 @@
+<div class="container" ng-controller="managerCtrl as ctrl">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="page-header">
+
+
+
+                <form id="formRegister" name="formRegister">
+                    <div class="alert alert-danger" ng-if="passwordMatchError">
+                        The password fields don't match
+                    </div>
+                    <div class="alert alert-danger" ng-if="userExists">
+                        The company already has an account
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Company:</label>
+                        <input type="text" id="company" name="company" class="form-control" value="{{ name }}" placeholder='Company' ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">E-mail: </label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder='E-mail' ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Password:</label>
+                        <input type="password" id="password" name='password' placeholder='Password' class="form-control" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Confirm password:</label>
+                        <input type="password" id="confirm_password" name='confirm_password' placeholder='Confirm password' class="form-control" ng-required="true">
+                    </div>
+
+                    <button type="submit" ng-disabled="formRegister.$invalid" class="btn btn-primary" ng-click = "ctrl.registerManager()">Register</button>
+                    <a href="#/independents" class="btn btn-default">Back</a>
+
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container" ng-controller="companyCtrl as ctrl" ng-init="ctrl.getProjects()">
+    <div class="col-sm-12">
+        <div ng-repeat="record in projects">
+            <div class="col-md-4 col-sm-6 col-lg-4 well">
+                <div class="caption" >
+                    <p align="center"><strong>{{record.fields.name | uppercase}}</strong></p>
+                </div>
+                <div class="col-md-12">
+                    <div class="img-thumbnail" id="image" ng-if="record.fields.image">
+                        <a ng-href="{{ record.fields.image }}" target="_blank"><img class="img-responsive" style="height: 20vmax;" ng-src="{{ record.fields.image }}" alt="{{ record.fields.image }}"></a>
+                    </div>
+                </div>
+                <div class="caption" >
+                    <p><strong>Descripción:</strong> {{record.fields.description}}</p>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Más <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/design/{{ record.pk }}">Ver Diseños</a></li>
+                        <li><a href="#/createDesign/{{ record.pk }}">Publicar mi Diseño</a></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

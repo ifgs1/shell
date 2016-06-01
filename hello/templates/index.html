@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html ng-app="helpApp">
+<head>
+    <title>Cloud Design</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.3/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.3/angular-route.min.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+    <!-- Angular JS files -->
+    <script src="static/src/app.js"></script>
+
+    <script src="static/src/modules/main/main.mod.js"></script>
+    <script src="static/src/modules/main/main.svc.js"></script>
+    <script src="static/src/modules/main/main.ctrl.js"></script>
+
+    <script src="static/src/modules/login/login.mod.js"></script>
+    <script src="static/src/modules/login/login.svc.js"></script>
+    <script src="static/src/modules/login/login.ctrl.js"></script>
+
+    <script src="static/src/modules/manager/manager.mod.js"></script>
+    <script src="static/src/modules/manager/manager.svc.js"></script>
+    <script src="static/src/modules/manager/manager.ctrl.js"></script>
+
+    <script src="static/src/modules/profile/profile.mod.js"></script>
+    <script src="static/src/modules/profile/profile.svc.js"></script>
+    <script src="static/src/modules/profile/profile.ctrl.js"></script>
+
+    <script src="static/src/modules/comments/comments.mod.js"></script>
+    <script src="static/src/modules/comments/comments.svc.js"></script>
+    <script src="static/src/modules/comments/comments.ctrl.js"></script>
+
+    <script src="static/src/modules/detail/detail.mod.js"></script>
+    <script src="static/src/modules/detail/detail.svc.js"></script>
+    <script src="static/src/modules/detail/detail.ctrl.js"></script>
+
+    <script src="static/src/modules/project/project.mod.js"></script>
+    <script src="static/src/modules/project/project.svc.js"></script>
+    <script src="static/src/modules/project/project.ctrl.js"></script>
+
+        <script src="static/src/modules/create/create.mod.js"></script>
+    <script src="static/src/modules/create/create.svc.js"></script>
+    <script src="static/src/modules/create/create.ctrl.js"></script>
+
+    <script src="static/src/modules/edit/edit.mod.js"></script>
+    <script src="static/src/modules/edit/edit.svc.js"></script>
+    <script src="static/src/modules/edit/edit.ctrl.js"></script>
+
+    <script src="static/src/modules/createDesign/createDesign.mod.js"></script>
+    <script src="static/src/modules/createDesign/createDesign.svc.js"></script>
+    <script src="static/src/modules/createDesign/createDesign.ctrl.js"></script>
+
+    <script src="static/src/modules/company/company.mod.js"></script>
+    <script src="static/src/modules/company/company.svc.js"></script>
+    <script src="static/src/modules/company/company.ctrl.js"></script>
+
+    <script src="static/src/modules/design/design.mod.js"></script>
+    <script src="static/src/modules/design/design.svc.js"></script>
+    <script src="static/src/modules/design/design.ctrl.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse" ng-controller="mainCtrl as ctrl" ng-init="ctrl.isLogged()">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/main"><i class="fa fa-star-o">Cloud Design</i></a>
+        </div>
+        <div>
+            <div ng-if="message.logged">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/project"><i class="fa fa-briefcase"> Mis Proyectos</i></a></li>
+                    <li><a href="#/create"><i class="fa fa-plus"> Crear Proyecto</i></a></li>
+                    <li><a href="#/profile"><i class="fa fa-user"> Mi Perfil</i></a></li>
+                    <li ><a ng-click="ctrl.logOut()" href="#/"><i class="fa fa-sign-out"> Cerrar Sesión</i></a></li>
+                </ul>
+            </div>
+            <div ng-if="!message.logged">
+                <ul class="nav navbar-nav navbar-right">
+				    <li><a href="#/register"><i class="fa fa-user"> Sign up</i></a></li>
+                    <li><a href="#/login"><i class="fa fa-sign-in"> Sign in</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div ng-view></div>
+</body>
+</html>

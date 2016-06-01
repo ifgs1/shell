@@ -1,0 +1,38 @@
+<div class="container" ng-controller="editCtrl as ctrl" ng-init="ctrl.getProject()">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="page-header">
+
+                <div class="alert alert-success" ng-if="success === 'OK'">
+                    Exito
+                </div>
+
+                <div class="alert alert-danger" ng-if="success === 'ERROR'">
+                    Error
+                </div>
+
+                <div class="col-md-12">
+                    <div class="img-thumbnail" id="image">
+                        <a ng-href="{{ projects.fields.image }}" target="_blank"><img class="img-responsive" style="height: 20vmax;" ng-src="{{ projects.fields.image }}" alt="{{ projects.fields.image }}"></a>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="image">Imagen de Proyecto URL:</label>
+                        <input ng-model="projects.fields.image" type="url" id="profile_image" name="profile_image" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Nombre Proyecto:</label>
+                        <input ng-model="projects.fields.name" type="text" id="name" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="description">Descripción:</label>
+                        <input ng-model="projects.fields.description" type="text" id="name" name="name" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" ng-click="ctrl.editProject()">Actualizar</button>
+                    <a href="#/proyecto" class="btn btn-default">Volver</a>
+
+            </div>
+        </div>
+    </div>
+</div>

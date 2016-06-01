@@ -1,0 +1,30 @@
+<div class="container" ng-controller="designCtrl as ctrl" ng-init="ctrl.getDesigns()">
+    <div class="col-sm-12">
+        <div ng-repeat="record in designs">
+            <div class="col-md-4 col-sm-6 col-lg-4 well">
+                <div class="caption" >
+                    <p align="center"><strong>DISEÑO</strong></p>
+                </div>
+                <div class="col-md-12">
+                    <div class="img-thumbnail" id="image" ng-if="record.fields.imageFile">
+                        <a ng-href="static/{{ record.fields.imageFile }}" target="_blank"><img class="img-responsive" style="height: 20vmax;" ng-src="static/{{ record.fields.imageFile }}" alt="static/{{ record.fields.imageFile }}"></a>
+                    </div>
+                </div>
+                <div class="caption" >
+                    <div ng-if="record.fields.status === 1">
+                    <p class="btn btn-primary"><strong>Status: </strong> En Progreso</p>
+                    </div>
+                    <div ng-if="record.fields.status === 2">
+                    <p class="btn btn-success"><strong>Status: </strong> Disponible</p>
+                    </div>
+
+                    <p><strong>Creada: </strong> {{record.fields.created_date}}</p>
+                    <p><strong>Ruta: </strong> {{record.fields.imageFile}}</p>
+                    <p><strong>Nombres: </strong> {{record.fields.designer.name}}</p>
+                    <p><strong>Apellidos: </strong> {{record.fields.designer.lastname}}</p>
+                    <p><strong>Email: </strong> {{record.fields.designer.email}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="container" ng-controller="profileCtrl as ctrl" ng-init="ctrl.getInfo()">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="page-header">
+
+                <div class="alert alert-success" ng-if="success === 'OK'">
+                    Exito
+                </div>
+
+                <div class="alert alert-danger" ng-if="success === 'ERROR'">
+                    Error
+                </div>
+
+                <div class="col-md-12">
+                    <div class="img-thumbnail" id="image">
+                        <a ng-href="{{ independent.fields.imageFileUrl }}" target="_blank"><img class="img-responsive" style="height: 20vmax;" ng-src="{{ independent.fields.imageFileUrl }}" alt="{{ independent.fields.imageFileUrl }}"></a>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="profile_image">Imagen de Perfil URL:</label>
+                        <input ng-model="independent.fields.imageFileUrl" type="url" id="profile_image" name="profile_image" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Nombres:</label>
+                        <input ng-model="independent.fields.name" type="text" id="name" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="last_name">Apellidos:</label>
+                        <input ng-model="independent.fields.lastName" type="text" id="last_name" name="last_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="job">Tipo de Servicio:</label>
+                        <select ng-model="independent.fields.job" class="form-control" id="job">
+                            <option>{{ independent.fields.job }}</option>
+                            <option ng-repeat="record in jobs" >
+                                {{record.fields.jobName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="years_of_experience">Años de Experiencia:</label>
+                        <input ng-model="independent.fields.yearsOfExperience" type="number" id="years_of_experience" name="years_of_experience" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="phone_number">Teléfono:</label>
+                        <input ng-model="independent.fields.phoneNumber" type="text" id="phone_number" name="phone_number" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">E-mail:</label>
+                        <input ng-model="independent.fields.email" type="email" id="email" name="email" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" ng-click="ctrl.editProfile()">Actualizar</button>
+                    <a href="#/independents" class="btn btn-default">Volver</a>
+
+            </div>
+        </div>
+    </div>
+</div>

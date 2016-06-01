@@ -1,0 +1,22 @@
+<script>
+    $("#imageFile").change(function() {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var binaryString = this.result;
+            console.log(binaryString);
+            document.getElementById("fileString").value = window.btoa(binaryString);
+        }
+    reader.readAsBinaryString(this.files[0]);
+    });
+</script>
+<div class="container" ng-controller="createDesignCtrl as ctrl">
+    <div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">
+            <input id="designer_name" name="designer_name" type="text" placeholder="Nombre Diseñador" class="form-control input-md" required="">
+            <input id="designer_last_name" name="designer_last_name" type="text" placeholder="Apellido Diseñador" class="form-control input-md" required="">
+            <input id="designer_email" name="designer_email" type="email" placeholder="Email Diseñador" class="form-control input-md" required="">
+            <input id="price" name="price" type="number" placeholder="Precio" class="form-control input-md" required="">
+            <input id="imageFile" name="file" type="file" required="">
+            <input id="fileString" name="fileString" type="text" class="form-control input-md" readonly>
+            <button class="btn btn-primary" ng-click="ctrl.createDesign()">Subir Diseño</button>
+    </div>
+</div>
