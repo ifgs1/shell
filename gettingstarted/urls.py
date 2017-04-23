@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^design', hello.views.createDesign, name='design'),
     url(r'^project/(\d+)$', hello.views.getProject, name='getProject'),
+    url(r'^ride', hello.views.createRide, name='createRide'),
     url(r'^company/(\d+)$', hello.views.getCompanyById, name='companyById'),
     url(r'^getDesigns/(\d+)$', hello.views.getDesignsByProject, name='getDesignsByProject'),
     url(r'^(\w+)/(\d+)$', hello.views.getCompany, name='company'),

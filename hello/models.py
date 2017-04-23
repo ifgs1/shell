@@ -7,18 +7,19 @@ from django.contrib.auth.models import User
 Design_Status = ((1,'IN_PROGRESS'), (2,'AVAILABLE'))
 
 
-class Administrator(models.Model):
-    company = models.CharField(max_length=100,blank=True)
+class Usuario(models.Model):
+    full_name = models.CharField(max_length=100,blank=True)
+    user_identifiation = models.BigIntegerField
+    birth_date = models.CharField(max_length=100,blank=True)
     email = models.EmailField(max_length=70,blank=True, null= True, unique= True)
     user = models.OneToOneField(User,null=True)
-    url = models.CharField(max_length=100,blank=True)
 
 class Proyecto(models.Model):
     name = models.CharField(max_length=50,blank=True)
     description = models.CharField(max_length=250,blank=True)
     image = models.CharField(max_length=500,blank=True)
     estimated_price = models.BigIntegerField
-    administrador = models.ForeignKey(User,null=True)
+    usuario = models.ForeignKey(User,null=True)
 
 class Designer(models.Model):
     name = models.CharField(max_length=50,blank=True)
@@ -39,3 +40,14 @@ class Design(models.Model):
     imageFile = models.ImageField(upload_to='images',null=True)
     designer = models.ForeignKey(Designer,null=True)
     project = models.ForeignKey(Proyecto,null=True)
+
+class Trayecto(models.Model):
+     name = models.CharField(max_length=50, blank=True)
+     description = models.CharField(max_length=250, blank=True)
+     latitude_origin = models.FloatField
+     longitude_origin = models.FloatField
+     latitude_destination = models.FloatField
+     longitude_destination = models.FloatField
+     date_ride = models.CharField(max_length=100, blank=True)
+     seats = models.BigIntegerField(blank=False, null=False)
+     administrador = models.ForeignKey(User, null=True)

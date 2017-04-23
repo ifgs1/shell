@@ -8,8 +8,8 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.mail import send_mail, EmailMultiAlternatives
 
 from gettingstarted.settings import BASE_DIR, PROJECT_ROOT
-from models import Proyecto,Design, Designer
-from models import Administrator
+from models import Proyecto,Design, Designer, Trayecto
+from models import Usuario
 import os
 import time
 from django.core.files.base import ContentFile
@@ -50,7 +50,7 @@ def getCompanyById(request,userId):
 
         page = request.GET.get('page')
         user = request.user
-        proyecto = Proyecto.objects.filter(administrador__pk=userId)
+        proyecto = Proyecto.objects.filter(usuario__pk=userId)
         paginator = Paginator(proyecto, 10) # Show 25 contacts per page
         try:
             proyectos = paginator.page(page)
@@ -78,7 +78,7 @@ def createProject(request):
      proyecto.description = jsonProject['description']
      proyecto.image = jsonProject['image']
      proyecto.estimated_price= jsonProject['estimatedPrice']
-     proyecto.administrador = request.user
+     proyecto.usuario = request.user
      proyecto.save()
      return HttpResponse(serializers.serialize("json",{proyecto}))
 
@@ -88,7 +88,7 @@ def createProject(request):
 
         page = request.GET.get('page')
         user = request.user
-        proyecto = Proyecto.objects.filter(administrador=user)
+        proyecto = Proyecto.objects.filter(usuario=user)
         paginator = Paginator(proyecto, 10) # Show 25 contacts per page
         try:
             proyectos = paginator.page(page)
@@ -127,21 +127,23 @@ def registerManager(request):
     if request.method == 'POST':
         objs = json.loads(request.body)
 
-        company = objs['company'].lower()
+        name = objs['full_name'].lower()
         password = objs['password']
+        user_identifiation = objs['user_identifiation']
+        birth_date = objs['birth_date']
         email = objs['email']
 
 
-        userQS = User.objects.filter(username=company)
+        userQS = User.objects.filter(username=name)
         userList = list(userQS[:1])
         if userList:
             print 'Paila ya existe el man'
             return HttpResponse(status=400)
 
 
-        userModel = User.objects.create_user(username=company, password=password)
-        userModel.first_name=company
-        userModel.last_name=company
+        userModel = User.objects.create_user(username=name, password=password)
+        userModel.first_name=name
+        userModel.last_name=name
         userModel.email=email
         userModel.save()
         print 'Se crea el usuario'
@@ -151,20 +153,16 @@ def registerManager(request):
         userList = list(userQS[:1])
         userObject = userList[0]
         '''
-        manager = Administrator()
+        manager = Usuario()
         manager.email=email
-        manager.company=company
+        manager.birth_date =birth_date
+        manager.user_identifiation = user_identifiation
         manager.user=userModel
         manager.save()
 
-        myUrl = request.get_raw_uri().replace('register', manager.company + '/' + str(manager.id))
-        manager.url = myUrl
-        manager.save()
         print 'Se crea el manager'
 
-
-        return JsonResponse({'url':myUrl})
-
+        return HttpResponse(serializers.serialize("json", {manager}))
 @csrf_exempt
 def loginUser(request):
     message = ''
@@ -260,6 +258,70 @@ def createDesign(request):
         design.save()
 
     return JsonResponse({})
+
+@csrf_exempt
+def createRide(request):
+
+    if request.method == 'POST':
+
+     jsonProject = json.loads(request.body)
+     trayecto = Trayecto()
+     print str("Entro ")
+
+     print str("pasooooo ")
+
+     trayecto.name = jsonProject['name']
+     trayecto.description = jsonProject['description']
+     trayecto.latitude_origin = jsonProject['latitude_origin']
+     trayecto.longitude_origin= jsonProject['longitude_origin']
+     trayecto.latitude_destination= jsonProject['latitude_destination']
+     trayecto.longitude_destination= jsonProject['longitude_destination']
+     trayecto.date_ride= jsonProject['date_ride']
+     trayecto.seats= jsonProject['seats']
+
+     trayecto.usuario = request.user
+     trayecto.save()
+     return HttpResponse(serializers.serialize("json",{trayecto}))
+
+    if request.method == 'GET':
+        #proyecto = Proyecto.objects.all()
+
+
+        page = request.GET.get('page')
+        user = request.user
+        trayecto = Trayecto.objects.filter(usuario=user)
+        paginator = Paginator(trayecto, 10) # Show 25 contacts per page
+        try:
+            proyectos = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            proyectos = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            proyectos = paginator.page(paginator.num_pages)
+        data =serializers.serialize("json",proyectos.object_list)
+        return HttpResponse(serializers.serialize("json",trayecto))
+
+        ##return JsonResponse({"proyectos":data,"numeroPaginas":paginator.num_pages})
+
+    if request.method == 'PUT':
+        jsonProject = json.loads(request.body.decode('utf-8'))
+
+        proyecto = Proyecto.objects.get(pk=jsonProject.get('pk'))
+        proyecto.name = jsonProject.get('name')
+        proyecto.description = jsonProject.get('description')
+        proyecto.image = jsonProject.get('image')
+        proyecto.save()
+
+        return HttpResponse(serializers.serialize("json",{proyecto}))
+
+    if request.method == 'DELETE':
+            jsonProject = json.loads(request.body.decode('utf-8'))
+
+            proyecto = Proyecto.objects.get(pk=jsonProject.get('pk'))
+            proyecto.delete()
+
+            return HttpResponse(serializers.serialize("json",""))
 
 '''
 @csrf_exempt
