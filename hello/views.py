@@ -154,6 +154,7 @@ def registerManager(request):
         userObject = userList[0]
         '''
         manager = Usuario()
+        manager.full_name = name
         manager.email=email
         manager.birth_date =birth_date
         manager.user_identifiation = user_identifiation
@@ -278,31 +279,29 @@ def createRide(request):
      trayecto.longitude_destination= jsonProject['longitude_destination']
      trayecto.date_ride= jsonProject['date_ride']
      trayecto.seats= jsonProject['seats']
-
-     trayecto.usuario = request.user
+     trayecto.plates= jsonProject['plates']
+     trayecto.seats= jsonProject['seats']
+     user = Usuario.objects.get(pk=jsonProject.get('pk'))
+     trayecto.usuario = user
      trayecto.save()
      return HttpResponse(serializers.serialize("json",{trayecto}))
 
     if request.method == 'GET':
-        #proyecto = Proyecto.objects.all()
-
-
-        page = request.GET.get('page')
-        user = request.user
-        trayecto = Trayecto.objects.filter(usuario=user)
-        paginator = Paginator(trayecto, 10) # Show 25 contacts per page
-        try:
-            proyectos = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            proyectos = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            proyectos = paginator.page(paginator.num_pages)
-        data =serializers.serialize("json",proyectos.object_list)
-        return HttpResponse(serializers.serialize("json",trayecto))
-
-        ##return JsonResponse({"proyectos":data,"numeroPaginas":paginator.num_pages})
+        trayectos = Trayecto.objects.all()
+        compra_trayectos = Trayecto.objects.filter().values('plates',
+                                                            'usuario__email',
+                                                            'name',
+                                                            'description',
+                                                            'seats',
+                                                            'latitude_origin',
+                                                            'longitude_origin',
+                                                            'latitude_destination',
+                                                            'longitude_destination',
+                                                            'date_ride',
+                                                            'seats',
+                                                            'usuario__full_name')
+        compra_trayectos = json.loads(json.dumps(list(compra_trayectos)))
+        return JsonResponse(compra_trayectos, safe=False)
 
     if request.method == 'PUT':
         jsonProject = json.loads(request.body.decode('utf-8'))

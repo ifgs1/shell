@@ -50,4 +50,5 @@ class Trayecto(models.Model):
      longitude_destination = models.FloatField
      date_ride = models.CharField(max_length=100, blank=True)
      seats = models.BigIntegerField(blank=False, null=False)
-     administrador = models.ForeignKey(User, null=True)
+     plates = models.CharField(max_length=50, blank=True)
+     usuario = models.ForeignKey(Usuario, null=True)
