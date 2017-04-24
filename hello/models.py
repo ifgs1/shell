@@ -44,10 +44,10 @@ class Design(models.Model):
 class Trayecto(models.Model):
      name = models.CharField(max_length=50, blank=True)
      description = models.CharField(max_length=250, blank=True)
-     latitude_origin = models.FloatField
-     longitude_origin = models.FloatField
-     latitude_destination = models.FloatField
-     longitude_destination = models.FloatField
+     latitudeOR = models.CharField(max_length=250, blank=True)
+     longitudeOR = models.CharField(max_length=250, blank=True)
+     latitudeDE = models.CharField(max_length=250, blank=True)
+     longitudeDE = models.CharField(max_length=250, blank=True)
      date_ride = models.CharField(max_length=100, blank=True)
      seats = models.BigIntegerField(blank=False, null=False)
      plates = models.CharField(max_length=50, blank=True)

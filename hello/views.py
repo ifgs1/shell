@@ -273,14 +273,14 @@ def createRide(request):
 
      trayecto.name = jsonProject['name']
      trayecto.description = jsonProject['description']
-     trayecto.latitude_origin = jsonProject['latitude_origin']
-     trayecto.longitude_origin= jsonProject['longitude_origin']
-     trayecto.latitude_destination= jsonProject['latitude_destination']
-     trayecto.longitude_destination= jsonProject['longitude_destination']
-     trayecto.date_ride= jsonProject['date_ride']
-     trayecto.seats= jsonProject['seats']
-     trayecto.plates= jsonProject['plates']
-     trayecto.seats= jsonProject['seats']
+     trayecto.latitudeOR = jsonProject['latitudeOR']
+     trayecto.longitudeOR = jsonProject['latitudeOR']
+     trayecto.latitudeDE = jsonProject['latitudeOR']
+     trayecto.longitudeDE = jsonProject['latitudeOR']
+     trayecto.date_ride = jsonProject['date_ride']
+     trayecto.seats = jsonProject['seats']
+     trayecto.plates = jsonProject['plates']
+     trayecto.seats = jsonProject['seats']
      user = Usuario.objects.get(pk=jsonProject.get('pk'))
      trayecto.usuario = user
      trayecto.save()
@@ -288,20 +288,24 @@ def createRide(request):
 
     if request.method == 'GET':
         trayectos = Trayecto.objects.all()
+        return HttpResponse(serializers.serialize("json", trayectos))
+
+        '''
         compra_trayectos = Trayecto.objects.filter().values('plates',
                                                             'usuario__email',
                                                             'name',
                                                             'description',
                                                             'seats',
-                                                            'latitude_origin',
-                                                            'longitude_origin',
-                                                            'latitude_destination',
-                                                            'longitude_destination',
+                                                            'latitudeOR',
+                                                            'longitudeOR',
+                                                            'latitudeDE',
+                                                            'longitudeDE',
                                                             'date_ride',
                                                             'seats',
                                                             'usuario__full_name')
         compra_trayectos = json.loads(json.dumps(list(compra_trayectos)))
-        return JsonResponse(compra_trayectos, safe=False)
+        return HttpResponse(serializers.serialize("json", {compra_trayectos}))
+        '''
 
     if request.method == 'PUT':
         jsonProject = json.loads(request.body.decode('utf-8'))
