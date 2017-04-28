@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Design, Proyecto, Designer
-
+from .models import Usuario, Trayecto
 
 # Register your models here.
-admin.site.register(Design)
-admin.site.register(Proyecto)
-admin.site.register(Designer)
+admin.site.register(Usuario)
+admin.site.register(Trayecto)

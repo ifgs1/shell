@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.mail import send_mail, EmailMultiAlternatives
 
 from gettingstarted.settings import BASE_DIR, PROJECT_ROOT
-from models import Proyecto,Design, Designer, Trayecto
+from models import Trayecto
 from models import Usuario
 import os
 import time
@@ -23,104 +23,6 @@ import json
 @csrf_exempt
 def index(request):
     return render(request, 'index.html')
-
-@csrf_exempt
-def getProject(request,idProject):
-
-    if request.method == 'GET':
-        jsonProject = json.loads(request.body.decode('utf-8'))
-        proyecto = Proyecto.objects.get(pk=idProject)
-        return HttpResponse(serializers.serialize("json",proyecto))
-
-@csrf_exempt
-def getCompany(request,companyName,companyId):
-    print companyName,
-    return HttpResponseRedirect("http://127.0.0.1:8000/#/company/"+companyName+"/"+companyId)
-
-@csrf_exempt
-def getDesignsByProject(request,projectId):
-    print projectId
-    designs = Design.objects.filter(project__pk=projectId).order_by('-created_date')
-    return HttpResponse(serializers.serialize("json",designs,use_natural_foreign_keys=True, use_natural_primary_keys=True))
-
-
-@csrf_exempt
-def getCompanyById(request,userId):
-    if request.method == 'GET':
-
-        page = request.GET.get('page')
-        user = request.user
-        proyecto = Proyecto.objects.filter(usuario__pk=userId)
-        paginator = Paginator(proyecto, 10) # Show 25 contacts per page
-        try:
-            proyectos = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            proyectos = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            proyectos = paginator.page(paginator.num_pages)
-        data =serializers.serialize("json",proyectos.object_list)
-        return HttpResponse(serializers.serialize("json",proyecto))
-
-@csrf_exempt
-def createProject(request):
-
-    if request.method == 'POST':
-
-     jsonProject = json.loads(request.body)
-     proyecto = Proyecto()
-     print str("Entro ")
-
-     print str("pasooooo ")
-
-     proyecto.name = jsonProject['name']
-     proyecto.description = jsonProject['description']
-     proyecto.image = jsonProject['image']
-     proyecto.estimated_price= jsonProject['estimatedPrice']
-     proyecto.usuario = request.user
-     proyecto.save()
-     return HttpResponse(serializers.serialize("json",{proyecto}))
-
-    if request.method == 'GET':
-        #proyecto = Proyecto.objects.all()
-
-
-        page = request.GET.get('page')
-        user = request.user
-        proyecto = Proyecto.objects.filter(usuario=user)
-        paginator = Paginator(proyecto, 10) # Show 25 contacts per page
-        try:
-            proyectos = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            proyectos = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            proyectos = paginator.page(paginator.num_pages)
-        data =serializers.serialize("json",proyectos.object_list)
-        return HttpResponse(serializers.serialize("json",proyecto))
-
-        ##return JsonResponse({"proyectos":data,"numeroPaginas":paginator.num_pages})
-
-    if request.method == 'PUT':
-        jsonProject = json.loads(request.body.decode('utf-8'))
-
-        proyecto = Proyecto.objects.get(pk=jsonProject.get('pk'))
-        proyecto.name = jsonProject.get('name')
-        proyecto.description = jsonProject.get('description')
-        proyecto.image = jsonProject.get('image')
-        proyecto.save()
-
-        return HttpResponse(serializers.serialize("json",{proyecto}))
-
-    if request.method == 'DELETE':
-            jsonProject = json.loads(request.body.decode('utf-8'))
-
-            proyecto = Proyecto.objects.get(pk=jsonProject.get('pk'))
-            proyecto.delete()
-
-            return HttpResponse(serializers.serialize("json",""))
 
 @csrf_exempt
 def registerManager(request):
@@ -216,49 +118,6 @@ def isLoggedUser(request):
 def logoutUser(request):
     logout(request)
     return JsonResponse({'logout':True})
-
-@csrf_exempt
-def createDesign(request):
-    if request.method == 'POST':
-
-        objs = json.loads(request.body)
-
-        designer = Designer()
-        designer.name = objs['designer_name']
-        designer.lastname = objs['designer_last_name']
-        designer.email = objs['designer_email']
-        designer.save()
-
-        design = Design()
-
-        design.price = objs['price']
-        design.status = 1
-
-        base64_string = objs['imageFile'].encode('utf-8')
-        print objs['imageFile']
-        print base64_string
-
-        filename = str(time.time())+".png"
-
-        # decoding base string to image and saving in to your media root folder
-        fh = open(os.path.join(PROJECT_ROOT+'/static/images', filename), "wb")
-        fh.write(bytes(base64_string.decode('base64')))
-        fh.close()
-
-        # saving decoded image to database
-        decoded_image = base64_string.decode('base64')
-        design.imageFile = ContentFile(decoded_image, filename)
-
-        projectQS = Proyecto.objects.filter(pk=int(objs['project_pk']))
-        projectsList = list(projectQS[:1])
-        projectObject = projectsList[0]
-
-        design.project = projectObject
-        design.designer = designer
-
-        design.save()
-
-    return JsonResponse({})
 
 @csrf_exempt
 def createRide(request):
