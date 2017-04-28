@@ -79,32 +79,12 @@ def loginUser(request):
 
         if user is not None:
             login(request,user)
-            message = 'OK'
             print 'El man se logeo'
+            return HttpResponse(serializers.serialize("json", {user}))
         else:
             message = 'Usuario y/o clave invalida'
             print 'Paila el man no se logeo'
-
-    return JsonResponse({'message':message})
-
-@csrf_exempt
-def loginUser(request):
-    message = ''
-
-    if request.method == 'POST':
-        jsonUser = json.loads(request.body.decode('utf-8'))
-        username = jsonUser.get('username')
-        password = jsonUser.get('password')
-
-        user = authenticate(username=username,password=password)
-
-        if user is not None:
-            login(request,user)
-            message = 'OK'
-        else:
-            message = 'Usuario y/o clave invalida'
-
-    return JsonResponse({'message':message})
+            return JsonResponse({'message': message})
 
 @csrf_exempt
 def isLoggedUser(request):
