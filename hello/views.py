@@ -165,6 +165,21 @@ def createRide(request):
 
             return HttpResponse(serializers.serialize("json",""))
 
+
+@csrf_exempt
+def joinRide(request):
+
+    if request.method == 'POST':
+
+     jsonProject = json.loads(request.body)
+     print str("Entro ")
+
+     print str("pasooooo ")
+     trayecto = Trayecto.objects.get(pk=jsonProject.get('pk'))
+     trayecto.seats = trayecto.seats - jsonProject['seats']
+     trayecto.save()
+     return HttpResponse(serializers.serialize("json",{trayecto}))
+
 '''
 @csrf_exempt
 def getIndependents(request):

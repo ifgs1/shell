@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^logout', hello.views.logoutUser, name='logout'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ride', hello.views.createRide, name='createRide'),
+    url(r'^joinride', hello.views.joinRide, name='joinRide'),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
