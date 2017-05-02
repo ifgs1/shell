@@ -120,6 +120,8 @@ def createRide(request):
      trayecto.seats = jsonProject['seats']
      trayecto.plates = jsonProject['plates']
      trayecto.seats = jsonProject['seats']
+     trayecto.price = jsonProject['price']
+
      user = Usuario.objects.get(pk=jsonProject.get('pk'))
      trayecto.usuario = user
      trayecto.save()
