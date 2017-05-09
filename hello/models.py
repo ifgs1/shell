@@ -25,4 +25,5 @@ class Trayecto(models.Model):
      date_ride = models.CharField(max_length=100, blank=True)
      seats = models.BigIntegerField(blank=False, null=False)
      plates = models.CharField(max_length=50, blank=True)
+     clientes = models.CharField(max_length=250, blank=True)
      usuario = models.ForeignKey(Usuario, null=True)

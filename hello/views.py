@@ -179,6 +179,8 @@ def joinRide(request):
      print str("pasooooo ")
      trayecto = Trayecto.objects.get(pk=jsonProject.get('pk'))
      trayecto.seats = trayecto.seats - jsonProject['seats']
+     name = jsonProject['name']
+     trayecto.clientes = name + ", " + trayecto.clientes
      trayecto.save()
      return HttpResponse(serializers.serialize("json",{trayecto}))
 
